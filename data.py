@@ -5,7 +5,6 @@ import torch
 from torchvision import transforms
 from torch.utils.data import Dataset
 from PIL import Image
-import itertools
 
 
 folder_list = ['I', 'II']
@@ -62,14 +61,15 @@ class ToTensor(object):
 
 class FaceLandmarksDataset(Dataset):
     # Face Landmarks Dataset
-    def __init__(self, src_lines, transform=None):
-        '''
+    def __init__(self, src_lines,train, transform=None):
+        """
         :param src_lines: src_lines
         :param train: whether we are training or not
         :param transform: data transform
-        '''
+        """
         self.lines = src_lines
         self.transform = transform
+        self.train=train
 
     def __len__(self):
         return len(self.lines)
@@ -82,7 +82,7 @@ class FaceLandmarksDataset(Dataset):
         landmarks = np.array(landmarks).astype(np.float32)
 		
 		
-		# you should let your landmarks fit to the train_boarder(112)
+        # you should let your landmarks fit to the train_boarder(112)
 		# please complete your code under this blank
 		# your code:
 		
@@ -124,7 +124,7 @@ if __name__ == '__main__':
         sample = train_set[i]
         img = sample['image']
         landmarks = sample['landmarks']
-		## 请画出人脸crop以及对应的landmarks
+        ## 请画出人脸crop以及对应的landmarks
 		# please complete your code under this blank
 		
 		
