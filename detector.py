@@ -111,26 +111,26 @@ def train(args, train_loader, valid_loader, model, criterion, optimizer, device)
             img = batch['image']
             landmark = batch['landmarks']
 			
-			# ground truth
+            # ground truth
             input_img = img.to(device)
             target_pts = landmark.to(device)
 
             # clear the gradients of all optimized variables
             optimizer.zero_grad()
 			
-			# get output
+            # get output
             output_pts = model(input_img)
 			
-			# get loss
-			loss = pts_criterion(output_pts, target_pts)
+            # get loss
+            loss = pts_criterion(output_pts, target_pts)
 			
-			# do BP automatically
+            # do BP automatically
             loss.backward()
             optimizer.step()
 			
-			# show log info
+            # show log info
             if batch_idx % args.log_interval == 0:
-				print('Train Epoch: {} [{}/{} ({:.0f}%)]\t pts_loss: {:.6f}'.format(
+                print('Train Epoch: {} [{}/{} ({:.0f}%)]\t pts_loss: {:.6f}'.format(
 						epoch_id,
 						batch_idx * len(img),
 						len(train_loader.dataset),
@@ -158,12 +158,12 @@ def train(args, train_loader, valid_loader, model, criterion, optimizer, device)
 
                 output_pts = model(input_img)
 				
-				valid_loss = pts_criterion(output_pts, target_pts)
+                valid_loss = pts_criterion(output_pts, target_pts)
 				
-				valid_mean_pts_loss += valid_loss.item()
+                valid_mean_pts_loss += valid_loss.item()
 				
-			valid_mean_pts_loss /= valid_batch_cnt * 1.0
-			print('Valid: pts_loss: {:.6f}'.format(
+            valid_mean_pts_loss /= valid_batch_cnt * 1.0
+            print('Valid: pts_loss: {:.6f}'.format(
 					valid_mean_pts_loss
 				)
 			)
@@ -218,15 +218,15 @@ def main_test():
     ####################################################################
     criterion_pts = nn.MSELoss()
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
-	####################################################################
+    ####################################################################
     if args.phase == 'Train' or args.phase == 'train':
         print('===> Start Training')
         train_losses, valid_losses = \
 			train(args, train_loader, valid_loader, model, criterion_pts, optimizer, device)
         print('====================================================')
-	elif args.phase == 'Test' or args.phase == 'test'
-		print('===> Test')
-		# how to do test?
+    elif args.phase == 'Test' or args.phase == 'test':
+        print('===> Test')
+        # how to do test?
     elif args.phase == 'Finetune' or args.phase == 'finetune':
         print('===> Finetune')
         # how to do finetune?
